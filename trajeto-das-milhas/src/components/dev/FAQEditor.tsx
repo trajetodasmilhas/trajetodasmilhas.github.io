@@ -1,17 +1,17 @@
 import React from 'react';
-import { useContent } from '../../context/ContentContext';
+import { useDraft } from './AdminPanel';
 import InputField from './InputField';
 import TextAreaField from './TextAreaField';
 import EditorSection from './EditorSection';
 import ListItemEditor from './ListItemEditor';
 
 const FAQEditor: React.FC = () => {
-  const { content, updateContent } = useContent();
-  const { faq } = content;
+  const { draft, updateDraft } = useDraft();
+  const { faq } = draft;
 
   const handleUpdate = (newFaq: typeof faq) => {
-    updateContent({
-      ...content,
+    updateDraft({
+      ...draft,
       faq: newFaq
     });
   };

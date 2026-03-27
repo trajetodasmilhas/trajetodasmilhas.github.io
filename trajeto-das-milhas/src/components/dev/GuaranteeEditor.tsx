@@ -1,17 +1,17 @@
 import React from 'react';
-import { useContent } from '../../context/ContentContext';
+import { useDraft } from './AdminPanel';
 import InputField from './InputField';
 import TextAreaField from './TextAreaField';
 import EditorSection from './EditorSection';
 import { ShieldCheck } from 'lucide-react';
 
 const GuaranteeEditor: React.FC = () => {
-  const { content, updateContent } = useContent();
-  const { guarantee } = content;
+  const { draft, updateDraft } = useDraft();
+  const { guarantee } = draft;
 
   const handleChange = (field: string, value: any) => {
-    updateContent({
-      ...content,
+    updateDraft({
+      ...draft,
       guarantee: { ...guarantee, [field]: value }
     });
   };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useContent } from '../../context/ContentContext';
+import { useDraft } from './AdminPanel';
 import InputField from './InputField';
 import TextAreaField from './TextAreaField';
 import EditorSection from './EditorSection';
@@ -7,12 +7,12 @@ import ImageUpload from './ImageUpload';
 import { User, Image } from 'lucide-react';
 
 const AboutEditor: React.FC = () => {
-  const { content, updateContent } = useContent();
-  const { about } = content;
+  const { draft, updateDraft } = useDraft();
+  const { about } = draft;
 
   const handleChange = (field: string, value: string) => {
-    updateContent({
-      ...content,
+    updateDraft({
+      ...draft,
       about: { ...about, [field]: value }
     });
   };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useContent } from '../../context/ContentContext';
+import { useDraft } from './AdminPanel';
 import InputField from './InputField';
 import TextAreaField from './TextAreaField';
 import EditorSection from './EditorSection';
@@ -8,12 +8,12 @@ import ImageUpload from './ImageUpload';
 import { Image } from 'lucide-react';
 
 const BonusesEditor: React.FC = () => {
-  const { content, updateContent } = useContent();
-  const { bonuses } = content;
+  const { draft, updateDraft } = useDraft();
+  const { bonuses } = draft;
 
   const handleUpdate = (newBonuses: typeof bonuses) => {
-    updateContent({
-      ...content,
+    updateDraft({
+      ...draft,
       bonuses: newBonuses
     });
   };

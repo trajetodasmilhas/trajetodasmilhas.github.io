@@ -6,9 +6,10 @@ import { SiteContent } from '../../types';
 interface HeaderDevProps {
   content: SiteContent;
   onSave: () => Promise<void>;
+  hasUnsavedChanges?: boolean;
 }
 
-const HeaderDev: React.FC<HeaderDevProps> = ({ content, onSave }) => {
+const HeaderDev: React.FC<HeaderDevProps> = ({ content, onSave, hasUnsavedChanges }) => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
@@ -50,6 +51,12 @@ const HeaderDev: React.FC<HeaderDevProps> = ({ content, onSave }) => {
           <h1 className="text-sm font-black tracking-tighter uppercase">PAINEL ADMIN <span className="text-[#00D4FF]">TRAJETO</span></h1>
           <p className="text-[10px] font-mono text-[#8BA3C0] uppercase tracking-widest">Vibe Coding Mode v1.0</p>
         </div>
+        {hasUnsavedChanges && (
+          <div className="flex items-center gap-1.5 px-3 py-1 bg-yellow-500/10 border border-yellow-500/20 rounded-full">
+            <div className="w-1.5 h-1.5 rounded-full bg-yellow-400 animate-pulse" />
+            <span className="text-[10px] font-mono text-yellow-400 uppercase tracking-widest">Alterações não salvas</span>
+          </div>
+        )}
       </div>
 
       <div className="flex items-center gap-3">
@@ -69,7 +76,9 @@ const HeaderDev: React.FC<HeaderDevProps> = ({ content, onSave }) => {
           onClick={handleSave}
           disabled={isSaving}
           className={`relative flex items-center gap-2 px-6 py-2 rounded-lg font-black text-xs transition-all transform overflow-hidden ${
-            isSaving ? 'bg-gray-600 cursor-not-allowed' : 'bg-[#00D4FF] text-[#050A14] hover:shadow-[0_0_30px_rgba(0,212,255,0.5)] hover:scale-105'
+            isSaving ? 'bg-gray-600 cursor-not-allowed' : 
+            hasUnsavedChanges ? 'bg-[#00D4FF] text-[#050A14] hover:shadow-[0_0_30px_rgba(0,212,255,0.5)] hover:scale-105 shadow-[0_0_15px_rgba(0,212,255,0.3)]' :
+            'bg-[#00D4FF] text-[#050A14] hover:shadow-[0_0_30px_rgba(0,212,255,0.5)] hover:scale-105'
           }`}
         >
           <AnimatePresence mode="wait">

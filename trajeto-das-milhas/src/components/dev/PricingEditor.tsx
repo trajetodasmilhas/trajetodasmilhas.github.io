@@ -1,16 +1,16 @@
 import React from 'react';
-import { useContent } from '../../context/ContentContext';
+import { useDraft } from './AdminPanel';
 import InputField from './InputField';
 import EditorSection from './EditorSection';
 import { Plus, Trash2, CheckCircle2 } from 'lucide-react';
 
 const PricingEditor: React.FC = () => {
-  const { content, updateContent } = useContent();
-  const { pricing } = content;
+  const { draft, updateDraft } = useDraft();
+  const { pricing } = draft;
 
   const handleUpdate = (newPricing: typeof pricing) => {
-    updateContent({
-      ...content,
+    updateDraft({
+      ...draft,
       pricing: newPricing
     });
   };

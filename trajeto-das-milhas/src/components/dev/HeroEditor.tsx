@@ -1,17 +1,17 @@
 import React from 'react';
-import { useContent } from '../../context/ContentContext';
+import { useDraft } from './AdminPanel';
 import InputField from './InputField';
 import TextAreaField from './TextAreaField';
 import EditorSection from './EditorSection';
 import { Play, Link, Award } from 'lucide-react';
 
 const HeroEditor: React.FC = () => {
-  const { content, updateContent } = useContent();
-  const { hero } = content;
+  const { draft, updateDraft } = useDraft();
+  const { hero } = draft;
 
   const handleChange = (field: string, value: any) => {
-    updateContent({
-      ...content,
+    updateDraft({
+      ...draft,
       hero: { ...hero, [field]: value }
     });
   };

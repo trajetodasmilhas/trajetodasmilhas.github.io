@@ -1,5 +1,5 @@
 import React from 'react';
-import { useContent } from '../../context/ContentContext';
+import { useDraft } from './AdminPanel';
 import InputField from './InputField';
 import TextAreaField from './TextAreaField';
 import EditorSection from './EditorSection';
@@ -7,12 +7,12 @@ import ListItemEditor from './ListItemEditor';
 import * as LucideIcons from 'lucide-react';
 
 const BenefitsEditor: React.FC = () => {
-  const { content, updateContent } = useContent();
-  const { benefits } = content;
+  const { draft, updateDraft } = useDraft();
+  const { benefits } = draft;
 
   const handleUpdate = (newBenefits: typeof benefits) => {
-    updateContent({
-      ...content,
+    updateDraft({
+      ...draft,
       benefits: newBenefits
     });
   };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useContent } from '../../context/ContentContext';
+import { useDraft } from './AdminPanel';
 import InputField from './InputField';
 import TextAreaField from './TextAreaField';
 import EditorSection from './EditorSection';
@@ -7,12 +7,12 @@ import ListItemEditor from './ListItemEditor';
 import { Star } from 'lucide-react';
 
 const TestimonialsEditor: React.FC = () => {
-  const { content, updateContent } = useContent();
-  const { testimonials } = content;
+  const { draft, updateDraft } = useDraft();
+  const { testimonials } = draft;
 
   const handleUpdate = (newTestimonials: typeof testimonials) => {
-    updateContent({
-      ...content,
+    updateDraft({
+      ...draft,
       testimonials: newTestimonials
     });
   };

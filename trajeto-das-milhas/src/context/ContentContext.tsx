@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { doc, onSnapshot, setDoc, getDoc } from 'firebase/firestore';
+import { doc, onSnapshot, setDoc } from 'firebase/firestore';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { SiteContent } from '../types';
 import { defaultContent } from '../data/defaultContent';
@@ -51,7 +51,7 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
   }, []);
 
   const updateContent = async (newContent: SiteContent) => {
-    console.log("Tentando salvar conteúdo no Firestore...", newContent);
+    console.log("Salvando conteúdo no Firestore...");
     try {
       const contentDoc = doc(db, 'content', 'main');
       await setDoc(contentDoc, {
@@ -59,14 +59,11 @@ export const ContentProvider: React.FC<{ children: React.ReactNode }> = ({ child
         updatedAt: new Date().toISOString()
       });
       console.log("Conteúdo salvo com sucesso no Firestore!");
-      alert("✅ ALTERAÇÕES SALVAS COM SUCESSO NO SITE!");
     } catch (error) {
       console.error("Erro detalhado ao salvar no Firestore:", error);
       let errorMessage = "Erro desconhecido.";
       if (error instanceof Error) errorMessage = error.message;
-      
-      alert(`❌ ERRO AO SALVAR NO FIREBASE:\n${errorMessage}\n\nVerifique se o domínio trajetodasmilhas.github.io está autorizado no console do Firebase.`);
-      throw error;
+      throw new Error(errorMessage);
     }
   };
 
