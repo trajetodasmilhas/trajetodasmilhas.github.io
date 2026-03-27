@@ -4,13 +4,12 @@
     <meta charset="utf-8">
     <title>Trajeto das Milhas - Redirect</title>
     <script type="text/javascript">
-      // Redireciona para a página principal mantendo a rota no hash
-      var segmentCount = 0;
+      // Script para redirecionar rotas limpas no GitHub Pages para o index.html
+      // de forma que o BrowserRouter possa assumir a rota.
       var l = window.location;
       l.replace(
         l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-        l.pathname.split('/').slice(0, 1 + segmentCount).join('/') + '/?/' +
-        l.pathname.slice(1).split('/').slice(segmentCount).join('/').replace(/&/g, '~and~') +
+        '/?/' + l.pathname.slice(1).split('/').join('/').replace(/&/g, '~and~') +
         (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
         l.hash
       );
