@@ -1,0 +1,29 @@
+{
+  "entities": {
+    "SiteContent": {
+      "title": "SiteContent",
+      "description": "The entire content of the landing page.",
+      "type": "object",
+      "properties": {
+        "hero": { "type": "object" },
+        "whatis": { "type": "object" },
+        "benefits": { "type": "array" },
+        "testimonials": { "type": "array" },
+        "pricing": { "type": "object" },
+        "bonuses": { "type": "array" },
+        "guarantee": { "type": "object" },
+        "about": { "type": "object" },
+        "faq": { "type": "array" },
+        "footer": { "type": "object" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["hero", "whatis", "benefits", "testimonials", "pricing", "bonuses", "guarantee", "about", "faq", "footer"]
+    }
+  },
+  "firestore": {
+    "/content/main": {
+      "schema": "SiteContent",
+      "description": "The main document containing all site content."
+    }
+  }
+}
