@@ -20,19 +20,30 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ src, title = 'Video' }) => {
           if (entry.isIntersecting) {
             // Vídeo entrou na viewport - tentar tocar com som
             videoRef.current.muted = false;
-            setIsMuted(false);
-            videoRef.current.play().catch((err) => {
-              console.log('Autoplay com som foi bloqueado, tentando com mute:', err);
-              // Se falhar, tenta com mute
-              videoRef.current!.muted = true;
-              setIsMuted(true);
-              videoRef.current!.play().catch((err2) => {
-                console.log('Autoplay foi completamente bloqueado:', err2);
-              });
-            });
+            const playPromise = videoRef.current.play();
+            
+            if (playPromise !== undefined) {
+              playPromise
+                .then(() => {
+                  // Autoplay com som funcionou
+                  console.log('Autoplay com som iniciado');
+                })
+                .catch((error) => {
+                  // Se falhar, tenta com mute
+                  console.log('Autoplay com som bloqueado, tentando com mute:', error);
+                  if (videoRef.current) {
+                    videoRef.current.muted = true;
+                    videoRef.current.play().catch((err) => {
+                      console.log('Autoplay foi completamente bloqueado:', err);
+                    });
+                  }
+                });
+            }
           } else {
             // Vídeo saiu da viewport - pausar
-            videoRef.current.pause();
+            if (videoRef.current) {
+              videoRef.current.pause();
+            }
           }
         }
       },
@@ -99,6 +110,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ src, title = 'Video' }) => {
         onPause={handleVideoPause}
         loop
         playsInline
+        webkit-playsinline="true"
       />
 
       {/* Custom Controls */}
