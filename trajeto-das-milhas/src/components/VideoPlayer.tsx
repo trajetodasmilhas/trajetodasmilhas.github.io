@@ -33,6 +33,23 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ src, title = 'Video' }) => {
     }
   };
 
+  // Quando o vídeo chega ao final
+  const handleVideoEnded = () => {
+    if (videoRef.current) {
+      // Volta ao estado inicial
+      videoRef.current.currentTime = 0;
+      videoRef.current.muted = true;
+      setIsMuted(true);
+      setIsBlurred(true);
+      setIsPlaying(false);
+      
+      // Inicia o autoplay novamente (mutado e desfocado)
+      videoRef.current.play().catch((error) => {
+        console.log('Erro ao reiniciar vídeo:', error);
+      });
+    }
+  };
+
   const togglePlay = () => {
     if (videoRef.current) {
       if (isPlaying) {
@@ -79,6 +96,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ src, title = 'Video' }) => {
         }`}
         onPlay={handleVideoPlay}
         onPause={handleVideoPause}
+        onEnded={handleVideoEnded}
         playsInline
         muted={isMuted}
         autoPlay
