@@ -87,7 +87,7 @@ const Hero: React.FC = () => {
             <div className="flex flex-col md:flex-row items-center justify-center gap-6">
               <a 
                 href={content.hero.ctaLink}
-                className="px-10 py-4 bg-[#00D4FF] text-[#050A14] rounded-full font-black text-lg hover:shadow-[0_0_30px_rgba(0,212,255,0.6)] transition-all transform hover:scale-105"
+                className="w-full md:w-auto px-8 md:px-10 py-4 bg-[#00D4FF] text-[#050A14] rounded-full font-black text-base md:text-lg hover:shadow-[0_0_30px_rgba(0,212,255,0.6)] transition-all transform hover:scale-105 text-center"
               >
                 {content.hero.ctaText}
               </a>

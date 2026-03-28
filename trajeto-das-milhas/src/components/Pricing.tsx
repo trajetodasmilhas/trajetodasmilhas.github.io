@@ -57,13 +57,13 @@ const Pricing: React.FC = () => {
 
               <a 
                 href={plan.checkoutLink}
-                className={`w-full py-5 rounded-2xl font-black text-xl text-center flex items-center justify-center gap-3 transition-all ${
+                className={`w-full py-4 md:py-5 rounded-2xl font-black text-lg md:text-xl text-center flex items-center justify-center gap-2 md:gap-3 transition-all ${
                   plan.highlighted 
                   ? 'bg-[#00D4FF] text-[#050A14] hover:shadow-[0_0_30px_rgba(0,212,255,0.5)]' 
                   : 'bg-white/5 text-white hover:bg-white/10'
                 }`}
               >
-                <Zap className="w-6 h-6" />
+                <Zap className="w-5 h-5 md:w-6 md:h-6" />
                 Quero Garantir Minha Vaga
               </a>
             </motion.div>
