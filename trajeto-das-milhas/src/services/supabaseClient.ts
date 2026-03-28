@@ -3,21 +3,8 @@ import { createClient } from '@supabase/supabase-js';
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
 
-// Criar cliente com configurações de timeout e retry
-export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-  auth: {
-    persistSession: false,
-  },
-  global: {
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    },
-  },
-  db: {
-    schema: 'public',
-  },
-});
+// Criar cliente Supabase padrão para máxima compatibilidade
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 // Tipos de eventos
 export type VideoEventType = 'play' | 'pause' | 'ended' | 'cta_click';
