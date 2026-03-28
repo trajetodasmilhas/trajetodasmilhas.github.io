@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { useContent } from '../context/ContentContext';
+import { useContent } from '../context/ContextContent';
 
 const Hero: React.FC = () => {
   const { content } = useContent();
@@ -27,9 +27,9 @@ const Hero: React.FC = () => {
             }
           `}</style>
           <div className="marquee-content flex gap-8">
-            {[...Array(6)].map((_, i) => (
+            {[...Array(8)].map((_, i) => (
               <span key={i} className="text-[#00D4FF] font-bold text-sm md:text-base tracking-widest flex items-center gap-2">
-                Vagas Limitadas! <span className="text-[#00D4FF]">•</span> Garanta Já o Seu!
+                Vagas Limitadas! <span className="text-[#00D4FF]">•</span> Garanta Já Seu Acesso! <span className="text-[#00D4FF]">•</span>
               </span>
             ))}
           </div>
