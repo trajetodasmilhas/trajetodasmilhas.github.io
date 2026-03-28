@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Play, Pause, Volume2, VolumeX, Maximize } from 'lucide-react';
 
 interface VideoPlayerProps {
@@ -11,6 +11,46 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ src, title = 'Video' }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
+
+  // Intersection Observer para autoplay com som quando entra na viewport
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (videoRef.current) {
+          if (entry.isIntersecting) {
+            // Vídeo entrou na viewport - tentar tocar com som
+            videoRef.current.muted = false;
+            setIsMuted(false);
+            videoRef.current.play().catch((err) => {
+              console.log('Autoplay com som foi bloqueado, tentando com mute:', err);
+              // Se falhar, tenta com mute
+              videoRef.current!.muted = true;
+              setIsMuted(true);
+              videoRef.current!.play().catch((err2) => {
+                console.log('Autoplay foi completamente bloqueado:', err2);
+              });
+            });
+          } else {
+            // Vídeo saiu da viewport - pausar
+            videoRef.current.pause();
+          }
+        }
+      },
+      {
+        threshold: 0.5, // Ativa quando 50% do vídeo está visível
+      }
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => {
+      if (containerRef.current) {
+        observer.unobserve(containerRef.current);
+      }
+    };
+  }, []);
 
   const togglePlay = () => {
     if (videoRef.current) {
@@ -57,6 +97,8 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ src, title = 'Video' }) => {
         className="w-full h-full object-cover"
         onPlay={handleVideoPlay}
         onPause={handleVideoPause}
+        loop
+        playsInline
       />
 
       {/* Custom Controls */}
