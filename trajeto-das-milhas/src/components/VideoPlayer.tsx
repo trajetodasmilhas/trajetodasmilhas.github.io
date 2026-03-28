@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 import { Play, Pause, Volume2, VolumeX, Maximize } from 'lucide-react';
 
 interface VideoPlayerProps {
@@ -12,38 +12,6 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ src, title = 'Video' }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const [isBlurred, setIsBlurred] = useState(true); // Começa desfocado
-  const [hasStartedByUser, setHasStartedByUser] = useState(false); // Rastreia se o usuário clicou no botão
-
-  // Intersection Observer para autoplay mutado quando entra na viewport
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (videoRef.current) {
-          if (entry.isIntersecting) {
-            // Garante que o vídeo começa mutado e desfocado
-            videoRef.current.muted = true;
-            videoRef.current.currentTime = 0;
-            videoRef.current.play().catch((error) => {
-              console.log('Autoplay bloqueado:', error);
-            });
-          } else {
-            videoRef.current.pause();
-          }
-        }
-      },
-      { threshold: 0.5 }
-    );
-
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
-    }
-
-    return () => {
-      if (containerRef.current) {
-        observer.unobserve(containerRef.current);
-      }
-    };
-  }, []);
 
   // Quando o usuário clica no botão de play central
   const handlePlayButtonClick = () => {
@@ -57,9 +25,6 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ src, title = 'Video' }) => {
       // Ativa o som
       videoRef.current.muted = false;
       setIsMuted(false);
-      
-      // Marca que o usuário iniciou
-      setHasStartedByUser(true);
       
       // Toca o vídeo
       videoRef.current.play().catch((error) => {
