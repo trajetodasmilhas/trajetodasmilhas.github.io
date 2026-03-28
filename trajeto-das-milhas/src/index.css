@@ -19,6 +19,6 @@
   }
   
   body {
-    @apply bg-primary-bg text-text-primary;
+    @apply bg-primary-bg text-text-primary overflow-x-hidden;
   }
 }
