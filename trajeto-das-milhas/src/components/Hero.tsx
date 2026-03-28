@@ -61,7 +61,7 @@ const Hero: React.FC = () => {
                 {content.hero.title}
               </span>
             </h1>
-            <p className="text-lg md:text-2xl text-[#8BA3C0] max-w-4xl mx-auto mb-10 leading-relaxed">
+            <p className="text-base md:text-2xl text-[#8BA3C0] max-w-4xl mx-auto mb-10 leading-relaxed">
               {content.hero.subtitle}
             </p>
             
