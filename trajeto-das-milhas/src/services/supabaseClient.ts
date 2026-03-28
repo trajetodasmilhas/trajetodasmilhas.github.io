@@ -30,6 +30,8 @@ export const getSessionId = (): string => {
 
 // Registrar evento de vídeo no Supabase
 export const trackVideoEvent = async (event: VideoEvent) => {
+  if (!supabaseUrl || !supabaseAnonKey) return null;
+  
   try {
     const { data, error } = await supabase
       .from('video_events')
@@ -55,6 +57,8 @@ export const trackVideoEvent = async (event: VideoEvent) => {
 
 // Obter métricas agregadas de um vídeo
 export const getVideoMetrics = async (videoUrl: string) => {
+  if (!supabaseUrl || !supabaseAnonKey) return null;
+
   try {
     // Total de visualizações (plays)
     const { count: totalViews } = await supabase
@@ -115,14 +119,25 @@ export const getVideoMetrics = async (videoUrl: string) => {
   }
 };
 
-// Monitorar mudanças em tempo real
-export const subscribeToVideoEvents = (videoUrl: string, callback: (data: any) => void) => {
-  const subscription = supabase
-    .from(`video_events:video_url=eq.${videoUrl}`)
-    .on('*', (payload) => {
-      callback(payload);
-    })
+// Monitorar mudanças em tempo real (Sintaxe correta Supabase v2)
+export const subscribeToVideoEvents = (videoUrl: string, callback: (payload: any) => void) => {
+  if (!supabaseUrl || !supabaseAnonKey) return null;
+
+  const channel = supabase
+    .channel('video-updates')
+    .on(
+      'postgres_changes',
+      {
+        event: 'INSERT',
+        schema: 'public',
+        table: 'video_events',
+        filter: `video_url=eq.${videoUrl}`,
+      },
+      (payload) => {
+        callback(payload);
+      }
+    )
     .subscribe();
 
-  return subscription;
+  return channel;
 };
