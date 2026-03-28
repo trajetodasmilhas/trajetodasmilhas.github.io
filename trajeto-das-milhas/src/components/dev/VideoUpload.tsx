@@ -6,9 +6,9 @@ interface VideoUploadProps {
   label?: string;
 }
 
-// Configurações do Cloudinary (Upload Unsigned)
-const CLOUDINARY_UPLOAD_PRESET = 'ml_default'; // Preset padrão para upload não assinado
-const CLOUDINARY_CLOUD_NAME = 'demo'; // Substituir pelo seu Cloud Name se necessário
+// Configurações do Cloudinary (Puxando do .env ou usando padrão de teste)
+const CLOUDINARY_UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET || 'ml_default';
+const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME || 'demo';
 
 const VideoUpload: React.FC<VideoUploadProps> = ({ onUploadSuccess, label = "Upload de Vídeo" }) => {
   const [isUploading, setIsUploading] = useState(false);
@@ -20,9 +20,9 @@ const VideoUpload: React.FC<VideoUploadProps> = ({ onUploadSuccess, label = "Upl
     const file = event.target.files?.[0];
     if (!file) return;
 
-    // Validar tamanho (ex: max 50MB para demos/free tiers)
-    if (file.size > 50 * 1024 * 1024) {
-      setError('Vídeo muito grande (máx 50MB).');
+    // Validar tamanho (máx 100MB)
+    if (file.size > 100 * 1024 * 1024) {
+      setError('Vídeo muito grande (máx 100MB).');
       return;
     }
 
@@ -48,13 +48,22 @@ const VideoUpload: React.FC<VideoUploadProps> = ({ onUploadSuccess, label = "Upl
       };
 
       xhr.onload = () => {
-        const response = JSON.parse(xhr.responseText);
-        if (xhr.status === 200 && response.secure_url) {
-          onUploadSuccess(response.secure_url);
-          setSuccess(true);
-          setTimeout(() => setSuccess(false), 3000);
-        } else {
-          setError(response.error?.message || 'Erro no upload. Tente novamente.');
+        try {
+          const response = JSON.parse(xhr.responseText);
+          if (xhr.status === 200 && response.secure_url) {
+            onUploadSuccess(response.secure_url);
+            setSuccess(true);
+            setTimeout(() => setSuccess(false), 3000);
+          } else {
+            const errorMsg = response.error?.message || '';
+            if (errorMsg.includes('preset')) {
+              setError('Erro: Preset do Cloudinary não encontrado. Configure no seu .env.');
+            } else {
+              setError(errorMsg || 'Erro no upload. Tente novamente.');
+            }
+          }
+        } catch (e) {
+          setError('Erro ao processar resposta do servidor.');
         }
         setIsUploading(false);
       };
@@ -119,15 +128,17 @@ const VideoUpload: React.FC<VideoUploadProps> = ({ onUploadSuccess, label = "Upl
           ) : error ? (
             <>
               <AlertCircle size={24} />
-              <span className="font-bold text-center">{error}</span>
-              <span className="text-xs opacity-70">Clique para tentar novamente</span>
+              <div className="text-center px-4">
+                <span className="block font-bold leading-tight">{error}</span>
+                <span className="text-[10px] opacity-70 mt-1 block">Clique para tentar novamente</span>
+              </div>
             </>
           ) : (
             <>
               <Upload size={24} />
               <div className="text-center">
                 <span className="block font-bold">Upload Direto de Vídeo</span>
-                <span className="text-xs opacity-60">MP4, WebM ou MOV (Máx 50MB)</span>
+                <span className="text-xs opacity-60">MP4, WebM ou MOV (Máx 100MB)</span>
               </div>
             </>
           )}
