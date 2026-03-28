@@ -75,7 +75,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => {
       <div className="mt-auto space-y-4">
         {/* VSL Studio Button */}
         <button
-          onClick={() => navigate('/#/dev/vsl-studio')}
+          onClick={() => navigate('/dev/vsl-studio')}
           className="w-full flex items-center justify-between px-4 py-3 rounded-xl bg-gradient-to-r from-[#00D4FF]/20 to-[#7B2FFF]/20 border border-[#00D4FF]/30 hover:border-[#00D4FF]/60 text-[#00D4FF] transition-all duration-300 group"
         >
           <div className="flex items-center gap-3">
