@@ -4,97 +4,19 @@ import { motion } from 'motion/react';
 const MeshGradient: React.FC = () => {
   return (
     <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
-      {/* SVG Canvas para o Mesh Gradient - Apenas Azul */}
-      <svg
-        className="absolute inset-0 w-full h-full"
-        viewBox="0 0 1200 800"
-        preserveAspectRatio="xMidYMid slice"
-      >
-        <defs>
-          <filter id="blur-mesh">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="80" />
-          </filter>
-          
-          {/* Gradientes de azul - muito suaves */}
-          <motion.linearGradient
-            id="blue-grad-1"
-            x1="0%"
-            y1="0%"
-            x2="100%"
-            y2="100%"
-            animate={{
-              x1: ['0%', '50%', '0%'],
-              y1: ['0%', '50%', '0%'],
-              x2: ['100%', '50%', '100%'],
-              y2: ['100%', '50%', '100%'],
-            }}
-            transition={{
-              duration: 20,
-              repeat: Infinity,
-              ease: 'easeInOut',
-            }}
-          >
-            <stop offset="0%" stopColor="#00D4FF" stopOpacity="0.15" />
-            <stop offset="100%" stopColor="#0A4A6F" stopOpacity="0.1" />
-          </motion.linearGradient>
-
-          <motion.linearGradient
-            id="blue-grad-2"
-            x1="100%"
-            y1="0%"
-            x2="0%"
-            y2="100%"
-            animate={{
-              x1: ['100%', '50%', '100%'],
-              y1: ['0%', '50%', '0%'],
-              x2: ['0%', '50%', '0%'],
-              y2: ['100%', '50%', '100%'],
-            }}
-            transition={{
-              duration: 25,
-              repeat: Infinity,
-              ease: 'easeInOut',
-              delay: 2,
-            }}
-          >
-            <stop offset="0%" stopColor="#0A4A6F" stopOpacity="0.12" />
-            <stop offset="100%" stopColor="#00D4FF" stopOpacity="0.08" />
-          </motion.linearGradient>
-
-          <motion.linearGradient
-            id="blue-grad-3"
-            x1="50%"
-            y1="100%"
-            x2="50%"
-            y2="0%"
-            animate={{
-              x1: ['50%', '100%', '50%'],
-              y1: ['100%', '50%', '100%'],
-              x2: ['50%', '0%', '50%'],
-              y2: ['0%', '50%', '0%'],
-            }}
-            transition={{
-              duration: 30,
-              repeat: Infinity,
-              ease: 'easeInOut',
-              delay: 4,
-            }}
-          >
-            <stop offset="0%" stopColor="#00D4FF" stopOpacity="0.1" />
-            <stop offset="100%" stopColor="#0A4A6F" stopOpacity="0.12" />
-          </motion.linearGradient>
-        </defs>
-
-        {/* Círculos grandes e suaves com blur para criar o efeito de mesh gradient */}
-        <motion.circle
-          cx="200"
-          cy="150"
-          r="250"
-          fill="url(#blue-grad-1)"
-          filter="url(#blur-mesh)"
+      {/* Container para gradientes animados */}
+      <div className="absolute inset-0 w-full h-full">
+        {/* Gradiente 1 - Azul claro, movendo-se suavemente */}
+        <motion.div
+          className="absolute w-[800px] h-[800px] rounded-full blur-[120px] opacity-30"
+          style={{
+            background: 'radial-gradient(circle, rgba(0, 212, 255, 0.4) 0%, transparent 70%)',
+            top: '-20%',
+            left: '-10%',
+          }}
           animate={{
-            cx: [200, 300, 200],
-            cy: [150, 250, 150],
+            x: [0, 100, 0],
+            y: [0, 50, 0],
           }}
           transition={{
             duration: 20,
@@ -103,15 +25,17 @@ const MeshGradient: React.FC = () => {
           }}
         />
 
-        <motion.circle
-          cx="1000"
-          cy="400"
-          r="280"
-          fill="url(#blue-grad-2)"
-          filter="url(#blur-mesh)"
+        {/* Gradiente 2 - Azul médio, movendo-se em direção oposta */}
+        <motion.div
+          className="absolute w-[900px] h-[900px] rounded-full blur-[130px] opacity-25"
+          style={{
+            background: 'radial-gradient(circle, rgba(10, 74, 111, 0.3) 0%, transparent 70%)',
+            top: '10%',
+            right: '-15%',
+          }}
           animate={{
-            cx: [1000, 900, 1000],
-            cy: [400, 300, 400],
+            x: [-100, 50, -100],
+            y: [50, -50, 50],
           }}
           transition={{
             duration: 25,
@@ -121,15 +45,17 @@ const MeshGradient: React.FC = () => {
           }}
         />
 
-        <motion.circle
-          cx="600"
-          cy="600"
-          r="300"
-          fill="url(#blue-grad-3)"
-          filter="url(#blur-mesh)"
+        {/* Gradiente 3 - Azul escuro, movimento lento */}
+        <motion.div
+          className="absolute w-[700px] h-[700px] rounded-full blur-[140px] opacity-20"
+          style={{
+            background: 'radial-gradient(circle, rgba(0, 212, 255, 0.25) 0%, transparent 70%)',
+            bottom: '-10%',
+            left: '30%',
+          }}
           animate={{
-            cx: [600, 500, 600],
-            cy: [600, 500, 600],
+            x: [50, -50, 50],
+            y: [-50, 50, -50],
           }}
           transition={{
             duration: 30,
@@ -139,15 +65,17 @@ const MeshGradient: React.FC = () => {
           }}
         />
 
-        <motion.circle
-          cx="100"
-          cy="700"
-          r="200"
-          fill="url(#blue-grad-1)"
-          filter="url(#blur-mesh)"
+        {/* Gradiente 4 - Azul claro, movimento rápido */}
+        <motion.div
+          className="absolute w-[600px] h-[600px] rounded-full blur-[120px] opacity-25"
+          style={{
+            background: 'radial-gradient(circle, rgba(10, 74, 111, 0.35) 0%, transparent 70%)',
+            bottom: '5%',
+            right: '10%',
+          }}
           animate={{
-            cx: [100, 200, 100],
-            cy: [700, 600, 700],
+            x: [0, -80, 0],
+            y: [0, 60, 0],
           }}
           transition={{
             duration: 22,
@@ -157,15 +85,17 @@ const MeshGradient: React.FC = () => {
           }}
         />
 
-        <motion.circle
-          cx="1100"
-          cy="200"
-          r="220"
-          fill="url(#blue-grad-2)"
-          filter="url(#blur-mesh)"
+        {/* Gradiente 5 - Azul médio, movimento suave */}
+        <motion.div
+          className="absolute w-[750px] h-[750px] rounded-full blur-[125px] opacity-20"
+          style={{
+            background: 'radial-gradient(circle, rgba(0, 212, 255, 0.3) 0%, transparent 70%)',
+            top: '40%',
+            left: '50%',
+          }}
           animate={{
-            cx: [1100, 1000, 1100],
-            cy: [200, 300, 200],
+            x: [-60, 60, -60],
+            y: [30, -30, 30],
           }}
           transition={{
             duration: 28,
@@ -174,7 +104,7 @@ const MeshGradient: React.FC = () => {
             delay: 3,
           }}
         />
-      </svg>
+      </div>
 
       {/* Overlay para suavizar as bordas e garantir discretion */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#050A14] via-transparent to-[#050A14] pointer-events-none" />
