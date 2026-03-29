@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { Settings, BarChart3, Video, Upload } from 'lucide-react';
+import { Settings, BarChart3, Video, Upload, ArrowLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import VideoPlayer from '../components/VideoPlayer';
 import VideoMetricsDashboard from '../components/VideoMetricsDashboard';
 import { useContent } from '../context/ContentContext';
 
 const VSLStudio: React.FC = () => {
   const { content } = useContent();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<'player' | 'metrics' | 'upload'>('player');
   const [videoUrl, setVideoUrl] = useState(content.hero.videoUrl);
 
@@ -17,6 +19,13 @@ const VSLStudio: React.FC = () => {
         <div className="container mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
+              <button
+                onClick={() => navigate('/dev')}
+                className="p-2 hover:bg-[#00D4FF]/10 rounded-lg transition-colors text-[#8BA3C0] hover:text-[#00D4FF]"
+                aria-label="Voltar ao Painel Admin"
+              >
+                <ArrowLeft className="w-5 h-5" />
+              </button>
               <div className="p-2 bg-[#00D4FF]/10 rounded-lg">
                 <Video className="w-6 h-6 text-[#00D4FF]" />
               </div>
