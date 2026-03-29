@@ -4,6 +4,7 @@ import { Loader2 } from 'lucide-react';
 import Hero from '../components/Hero';
 import WhatIs from '../components/WhatIs';
 import Benefits from '../components/Benefits';
+import MeshGradient from '../components/MeshGradient';
 import Testimonials from '../components/Testimonials';
 import Pricing from '../components/Pricing';
 import Bonuses from '../components/Bonuses';
@@ -44,6 +45,7 @@ const LandingPage: React.FC = () => {
       <Hero />
       <WhatIs />
       <Benefits />
+      <MeshGradient />
       <Testimonials />
       <Pricing />
       <Bonuses />
