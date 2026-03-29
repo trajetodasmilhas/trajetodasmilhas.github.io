@@ -52,11 +52,10 @@ const LandingPage: React.FC = () => {
           <Benefits />
           <Testimonials />
           <Pricing />
+          <Bonuses />
+          <Guarantee />
         </div>
       </div>
-      
-      <Bonuses />
-      <Guarantee />
       <About />
       <FAQ />
     </main>
