@@ -34,10 +34,10 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => {
   ];
 
   return (
-    <aside className="w-72 bg-[#0D1526]/50 border-r border-white/5 p-6 flex flex-col gap-4 backdrop-blur-md">
-      <div className="mb-8">
-        <h2 className="text-[10px] font-mono text-[#8BA3C0] uppercase tracking-[0.3em] mb-4 opacity-50">SEÇÕES DO SITE</h2>
-        <div className="space-y-2">
+    <aside className="w-72 h-screen sticky top-0 bg-[#0D1526] border-r border-white/5 p-6 flex flex-col overflow-y-auto scrollbar-none backdrop-blur-md">
+      <div className="flex-grow">
+        <h2 className="text-[10px] font-mono text-[#8BA3C0] uppercase tracking-[0.3em] mb-6 opacity-50">SEÇÕES DO SITE</h2>
+        <div className="space-y-1.5">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
@@ -72,7 +72,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => {
         </div>
       </div>
 
-      <div className="mt-auto space-y-4">
+      <div className="mt-8 space-y-4">
         {/* VSL Studio Button */}
         <button
           onClick={() => navigate('/dev/vsl-studio')}
