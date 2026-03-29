@@ -155,31 +155,82 @@ export const getVideoMetrics = async (videoUrl: string) => {
   if (!supabaseUrl || !supabaseAnonKey) return null;
 
   try {
-    // Usar a view video_metrics_summary para obter dados agregados
-    const { data, error } = await supabase
-      .from('video_metrics_summary')
-      .select('*')
-      .eq('video_url', videoUrl)
-      .single();
+    const { data: events, error: eventsError } = await supabase
+      .from("video_events")
+      .select("event_type, watched_seconds")
+      .eq("video_url", videoUrl);
 
-    if (error) {
-      console.debug('Analytics: Métricas indisponíveis', error.message);
+    if (eventsError) {
+      console.debug("Analytics: Erro ao obter eventos de vídeo", eventsError.message);
       return null;
     }
 
+    const { data: retentionEvents, error: retentionError } = await supabase
+      .from("video_retention")
+      .select("video_current_time, total_duration")
+      .eq("video_url", videoUrl);
+
+    if (retentionError) {
+      console.debug("Analytics: Erro ao obter eventos de retenção", retentionError.message);
+      return null;
+    }
+
+    let blurViews = 0;
+    let totalViews = 0;
+    let completedViews = 0;
+    let ctaClicks = 0;
+    let totalWatchTime = 0;
+    let totalSessionsWithPlay = 0;
+
+    const sessions = new Set();
+
+    events.forEach((event: any) => {
+      sessions.add(event.user_session_id);
+      if (event.event_type === "blur_view") {
+        blurViews++;
+      } else if (event.event_type === "play") {
+        totalViews++;
+      } else if (event.event_type === "ended") {
+        completedViews++;
+        totalWatchTime += event.watched_seconds || 0;
+      } else if (event.event_type === "cta_click") {
+        ctaClicks++;
+      }
+    });
+
+    // Calcular tempo médio assistido e retenção média
+    let averageWatchTime = 0;
+    if (completedViews > 0) {
+      averageWatchTime = totalWatchTime / completedViews;
+    }
+
+    let totalRetentionSeconds = 0;
+    let retentionEventCount = 0;
+    retentionEvents.forEach((event: any) => {
+      totalRetentionSeconds += event.video_current_time;
+      retentionEventCount++;
+    });
+
+    let averageRetention = 0;
+    if (retentionEventCount > 0) {
+      averageRetention = (totalRetentionSeconds / retentionEventCount) / (retentionEvents[0]?.total_duration || 1) * 100;
+    }
+
+    const ctr = totalViews > 0 ? (ctaClicks / totalViews) * 100 : 0;
+
     return {
       videoUrl,
-      blurViews: data?.blur_views || 0,
-      totalViews: data?.play_clicks || 0,
-      completedViews: data?.completed_views || 0,
-      averageWatchTime: data?.avg_watch_time || 0,
-      ctaClicks: data?.cta_clicks || 0,
-      ctr: data?.ctr_percentage || 0,
-      averageRetention: data?.avg_retention_percentage || 0,
+      blurViews,
+      totalViews,
+      completedViews,
+      averageWatchTime: parseFloat(averageWatchTime.toFixed(2)),
+      ctaClicks,
+      ctr: parseFloat(ctr.toFixed(2)),
+      averageRetention: parseFloat(averageRetention.toFixed(2)),
       lastUpdated: new Date().toISOString(),
     };
   } catch (err) {
-    console.debug('Analytics: Erro ao obter métricas', err);
+    console.debug("Analytics: Erro ao obter métricas", err);
     return null;
   }
 };
