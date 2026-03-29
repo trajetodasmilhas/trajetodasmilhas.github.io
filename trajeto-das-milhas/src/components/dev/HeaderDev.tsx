@@ -42,7 +42,7 @@ const HeaderDev: React.FC<HeaderDevProps> = ({ content, onSave, hasUnsavedChange
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-[#0D1526]/80 backdrop-blur-xl border-b border-white/5 p-4 flex items-center justify-between">
+    <header className="w-full bg-[#0D1526]/80 backdrop-blur-xl border-b border-white/5 p-4 flex items-center justify-between">
       <div className="flex items-center gap-4">
         <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#00D4FF] to-[#7B2FFF] flex items-center justify-center shadow-[0_0_20px_rgba(0,212,255,0.3)]">
           <Terminal size={20} className="text-[#050A14]" />

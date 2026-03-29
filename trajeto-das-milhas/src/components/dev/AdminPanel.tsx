@@ -66,18 +66,26 @@ const AdminPanel: React.FC = () => {
 
   return (
     <DraftContext.Provider value={{ draft, updateDraft }}>
-      <div className="min-h-screen bg-[#050A14] text-white flex flex-col font-sans selection:bg-[#00D4FF] selection:text-[#050A14]">
+      <div className="h-screen bg-[#050A14] text-white flex flex-col font-sans selection:bg-[#00D4FF] selection:text-[#050A14]">
         {/* Background Grid */}
         <div className="fixed inset-0 z-0 opacity-[0.03] pointer-events-none" 
              style={{ backgroundImage: 'linear-gradient(#00D4FF 1px, transparent 1px), linear-gradient(90deg, #00D4FF 1px, transparent 1px)', backgroundSize: '50px 50px' }}>
         </div>
 
-        <HeaderDev content={draft} onSave={handleSave} hasUnsavedChanges={hasUnsavedChanges} />
+        {/* Header Fixo */}
+        <div className="fixed top-0 left-0 right-0 z-50">
+          <HeaderDev content={draft} onSave={handleSave} hasUnsavedChanges={hasUnsavedChanges} />
+        </div>
 
-        <div className="flex flex-1 overflow-hidden relative z-10">
-          <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
+        {/* Container com Sidebar Fixa e Conteúdo Rolável */}
+        <div className="flex flex-1 overflow-hidden relative z-10 pt-20">
+          {/* Sidebar Fixa */}
+          <div className="fixed left-0 top-20 bottom-0 z-40 overflow-y-auto">
+            <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
+          </div>
 
-          <main className="flex-1 overflow-y-auto bg-[#050A14]/50 backdrop-blur-sm">
+          {/* Conteúdo Principal Rolável */}
+          <main className="flex-1 overflow-y-auto bg-[#050A14]/50 backdrop-blur-sm ml-56">
             <div className="max-w-5xl mx-auto p-12">
               <AnimatePresence mode="wait">
                 <motion.div
